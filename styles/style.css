@@ -3,10 +3,26 @@
 nav, .copyright{
     background-color: #4BB7BA;
     color: #fff;
+    padding:0.5rem;
 }
 
 .shadow-t{
     box-shadow: 0px -4px 4px 0px #D9D9D9;
+}
+
+h1{
+    font-family: 'Raleway', sans-serif;
+    color:#fff;
+    font-weight:700;
+    
+}
+
+h2{
+    font-family: 'Raleway', sans-serif;
+    color:#265C7E;
+    font-weight:700;
+    /* font-size:2.5rem; */
+    margin:1rem;
 }
 
 h6{
@@ -14,18 +30,135 @@ h6{
     font-size: 1.5rem;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
+    margin:1rem;
 
+}
+
+h3{
+    font-family: 'Raleway', sans-serif;
+    color:#fff;
+    font-weight:700;
+    margin:1rem;
 }
 
 p{
     font-family: 'Raleway', sans-serif;
+    margin:1rem;
 }
 
 a{
     color: #FF8A5B;
     font-weight: 700;
+    text-decoration:underline;
+}
+
+.titleog{
+    color:#FF8A5B;
+}
+
+nav a{
+    text-decoration:none;
 }
 
 a:hover{
     color: #265C7E;
+}
+
+/* additional coding for nav */
+
+nav {
+    background-color: #4BB7BA;
+    padding: 0.5rem;
+    color: #fff;
+  }
+  
+  .nav-css a{
+    color:white;
+    padding-top: 0.5rem;
+  }
+
+  .nav-link.active{
+    background-color :#FF8A5B;
+    border-radius: 5px 5px 0px 0px;
+
+  }
+
+  .navbar-nav .nav-link:hover {
+    border-bottom: 2px solid #FF8A5B;
+  }
+
+  .nav-item{    
+    padding:1rem;
+    font-size:1.25rem;
+  }
+
+  nav i{
+    font-size: 2rem;
+  }
+
+  /* end of nav */
+
+  /* Banner image */
+  #bannerimg{
+    max-height: 600px; 
+    object-fit: cover;
+  }
+
+  img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  #banner h1 {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-5%, -50%);
+    text-align: right;
+  }
+
+  .blue-bg-color{
+    background-color: #265C7E;
+  }
+
+  .contactform{
+    color:white;
+    padding:1rem;
+    font-family: 'Raleway', sans-serif;
+  }
+
+  .contactform button{
+    width:100%;
+  }
+
+  /* fonts */
+  @media (min-width: 48rem) {
+    h1 {
+      font-size: calc(4rem + 1vw);
+    }
+  
+
+  h2 {
+    font-size: calc(2.5rem + 1vw);
+  }
+
+  p, .contactform {
+    font-size: calc(1rem + 0.25vw);
+  }
+}
+    h3 {
+    font-size: calc(1rem + 0.75vw)
+}
+
+.custom-button{
+    color:white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: calc(1rem + 0.25vw);
+    background-color: #FF8A5B;
+    border-radius:5px;
+    border:none;
+    padding:1rem 4rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
