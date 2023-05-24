@@ -139,8 +139,7 @@ nav {
 
   .demo-container{
     background-color: #C6C4C4;
-    padding-left:1rem;
-    padding-right:1rem;
+    padding: 1rem;
   }
 
   .custom-button{
@@ -185,10 +184,12 @@ thead{
   .delete-row button{
     background-color:#FF8A5B;
     color:#fff;
+    
   }
 
   .delete-row {
     border:none;
+    text-align:center;
   }
   
 
@@ -219,12 +220,22 @@ thead{
 
 #scenario-dropdown{
   background-color: #fff;
+  width:50%;
 }
 
 #dropdown-menu{
   display:flex;
   flex-direction:column;
 }
+
+#scenario-dropdown{
+  background-color: #fff;
+  max-width:max-content;
+  color:#4BB7BA;
+  border-color:#4BB7BA;
+  padding:0.5rem 3rem 0.5rem 3rem;
+}
+
 /* Make the demo container span the full width */
 @media (max-width: 1200px){
   .demo-container {
@@ -235,6 +246,7 @@ thead{
 .form-control {
 width:min-content;
 }
+
 
 }
 
