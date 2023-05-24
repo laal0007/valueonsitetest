@@ -155,20 +155,90 @@ nav {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-button{
+/* button{
     margin:1rem;
+} */
+
+.output-value, .output-value .form-control{
+  background-color: #FDC7B2;
+}
+
+.output-value .form-control{
+  border:none;
+  color:white;
 }
 
 /* table */
-thead{
-border-radius:5px;
-}  
+#demo_table {
+  border-radius: 10px 10px 0px 0px;
+  overflow:hidden;
+  min-width:1200px;
+}
 
 thead{
     background-color:#265C7E;
     color:white;
-
+    font-family: 'Roboto', sans-serif;
+    text-align:center;
   }
+
+  .delete-row button{
+    background-color:#FF8A5B;
+    color:#fff;
+  }
+
+  .delete-row {
+    border:none;
+  }
+  
+
+  .input-value{
+    background-color:#EAEAEA !important;
+  }
+
+  /* Target the last column */
+  td:nth-child(-n+7) {
+  border: none;
+}
+
+.custom-button2{
+  color:white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: calc(1rem + 0.25vw);
+  background-color: #FF8A5B;
+  border-radius:5px;
+  border:none;
+  padding:1rem 4rem;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#calculate_button, #save-button{
+  background-color:#4BB7BA;
+}
+
+#scenario-dropdown{
+  background-color: #fff;
+}
+
+#dropdown-menu{
+  display:flex;
+  flex-direction:column;
+}
+/* Make the demo container span the full width */
+@media (max-width: 1200px){
+  .demo-container {
+    background-color: rgb(198, 196, 196);
+    width:300%;
+}
+
+.form-control {
+width:min-content;
+}
+
+}
+
+
   /* fonts */
   @media (min-width: 48rem) {
     h1 {
@@ -183,33 +253,17 @@ thead{
   p, .contactform {
     font-size: calc(1rem + 0.25vw);
   }
-}
+
     h3 {
     font-size: calc(1rem + 0.75vw)
-}
-
-.custom-button2{
-    color:white;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: calc(1rem + 0.25vw);
-    background-color: #FF8A5B;
-    border-radius:5px;
-    border:none;
-    padding:1rem 4rem;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .form-control {
   text-align: center;
 }
 
-.output-value{
-  background-color: lightsalmon;
 }
 
-.input-value{
-  background-color: lightblue;
-}
+
 
 

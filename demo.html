@@ -16,7 +16,6 @@
 
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/font-awesome.css">
-  font-awesome.css
   <title>VALUEONSITE Demo Page</title>
 </head>
 
@@ -52,23 +51,23 @@
   <section class="my-5 demo-container">
     <!-- table options -->
     <div>
-      <div class="row">
-        <div class="col-md-1">
+      <div class="row" id="demo-options">
+        <div class="col-md-1" id="modifier">
           <div class="form-group">
             <label for="modifier">Modifier:</label>
             <input type="number" class="form-control" id="modifier" placeholder="0">
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
+        <div class="col-md-3" id="title-block">
+          <div class="form-group" id="title-label">
             <label for="title">Title:</label>
             <input type="text" class="form-control" id="title" placeholder="Scenario 1">
           </div>
         </div>
         <div class="col-md-3">
-          <div class="form-group">
-            <label for="dropdown">Select Saved Scenario</label><button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scenario 1</button>
-            <div class="dropdown-menu">
+          <div class="form-group" id="dropdown-menu">
+            <label for="dropdown" >Select Saved Scenario</label><button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scenario 1</button>
+            <div class="dropdown-menu" id="scenario-dropdown" >
               <a class="dropdown-item" href="#">Scenario 1</a>
               <a class="dropdown-item" href="#">Scenario 2</a>
               <a class="dropdown-item" href="#">Scenario 3</a>
@@ -76,8 +75,8 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="float-right form-group" role="group" aria-label="Scenario options">
-            <button type="button" class="btn custom-button2">Save Scenario</button>
+          <div class="form-group" role="group" aria-label="Scenario options">
+            <button type="button" class="btn custom-button2" id="save-button">Save Scenario</button>
             <button type="button" class="btn custom-button">Delete Scenario</button>
           </div>
         </div>
@@ -98,7 +97,7 @@
             <th>Output1</th>
             <th>Input3</th>
             <th>Output2</th>
-            <th>Delete row</th>
+            <th>Delete Row</th>
           </tr>
         </thead>
         <tbody>
@@ -153,12 +152,12 @@
             </td>
           </tr>
         </tbody>
-      </table>'
+      </table>
 
 
 
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="float-right form-group" role="group" aria-label="Scenario options">
             <button id="calculate_button" type="button" class="btn custom-button2">Calculate</button>
           </div>
