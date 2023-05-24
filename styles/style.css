@@ -30,6 +30,10 @@ h2{
     margin:1rem;
 }
 
+.h3-dk{
+  color:#265C7E
+}
+
 h6{
     color: #265C7E;
     font-size: 1.5rem;
@@ -243,7 +247,7 @@ thead{
     width:300%;
 }
 
-.form-control {
+.demo-container .form-control {
 width:min-content;
 }
 
