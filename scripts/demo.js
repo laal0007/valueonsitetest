@@ -3,7 +3,7 @@ jQuery(function () {
 });
 var rowCount = 1;
 function init() {
-    console.log('inti');
+    console.log('init');
     $('#add_row_button').on('click', AddRow);
     $('body').on('click', '[id^=delete_]', function (event) {
         RemoveRow(event);
@@ -73,61 +73,91 @@ function Calculate() {
         };
         items.push(item);
     });
-    var serviceUrl = 'https://0jy9cqz7l7.execute-api.us-east-1.amazonaws.com/dev/simple-test';
-    var data = [
-        {
-            "id": 1,
-            "name": "WEBER",
-            "input1": 1,
-            "input2": 2,
-            "input3": 3,
-            "input4": 4,
-            "input5": 5,
-            "input6": 6
-        },
-        {
-            "id": 2,
-            "name": "NEXGRILL",
-            "input1": 2,
-            "input2": 4,
-            "input3": 6,
-            "input4": 8,
-            "input5": 10,
-            "input6": 12
-        },
-        {
-            "id": 3,
-            "name": "CHAR-BROIL",
-            "input1": 1,
-            "input2": 3,
-            "input3": 5,
-            "input4": 7,
-            "input5": 9,
-            "input6": 11
-        },
-        {
-            "id": 4,
-            "name": "TRAEGER",
-            "input1": 3,
-            "input2": 4,
-            "input3": 5,
-            "input4": 6,
-            "input5": 7,
-            "input6": 8
-        },
-        {
-            "id": 5,
-            "name": "COLEMAN",
-            "input1": 10,
-            "input2": 20,
-            "input3": 30,
-            "input4": 40,
-            "input5": 50,
-            "input6": 60
-        }
-    ];
+    var serviceUrl = 'https://dqsrnskzi2.execute-api.us-east-1.amazonaws.com/default/cors-test';
+    // https://kdrqcecosg.execute-api.us-east-1.amazonaws.com/default/cors-test
+    // https://43t6mhf3m1.execute-api.us-east-1.amazonaws.com/default/Options-PreFlight
+    // const data = [
+    //     {
+    //       "id": 1,
+    //       "name": "WEBER",
+    //       "input1": 1,
+    //       "input2": 2,
+    //       "input3": 3,
+    //       "input4": 4,
+    //       "input5": 5,
+    //       "input6": 6
+    //     },
+    //     {
+    //       "id": 2,
+    //       "name": "NEXGRILL",
+    //       "input1": 2,
+    //       "input2": 4,
+    //       "input3": 6,
+    //       "input4": 8,
+    //       "input5": 10,
+    //       "input6": 12
+    //     },
+    //     {
+    //       "id": 3,
+    //       "name": "CHAR-BROIL",
+    //       "input1": 1,
+    //       "input2": 3,
+    //       "input3": 5,
+    //       "input4": 7,
+    //       "input5": 9,
+    //       "input6": 11
+    //     },
+    //     {
+    //       "id": 4,
+    //       "name": "TRAEGER",
+    //       "input1": 3,
+    //       "input2": 4,
+    //       "input3": 5,
+    //       "input4": 6,
+    //       "input5": 7,
+    //       "input6": 8
+    //     },
+    //     {
+    //       "id": 5,
+    //       "name": "COLEMAN",
+    //       "input1": 10,
+    //       "input2": 20,
+    //       "input3": 30,
+    //       "input4": 40,
+    //       "input5": 50,
+    //       "input6": 60
+    //     }
+    //   ];
+    var data = {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3"
+    };
     var stringData = JSON.stringify(data);
-    $.post(serviceUrl, function (stringData, status) {
-        alert("Data: " + items + "\nStatus: " + status);
+    //   fetch('url', {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'text/plain',
+    //       'Content-Type': 'text/plain'
+    //     },
+    //     body: stringData
+    //   });
+    $.ajax({
+        method: 'POST',
+        url: serviceUrl,
+        dataType: 'json',
+        data: data,
+        headers: {
+            "x-api-key": 'HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg'
+        },
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader ("x-api-key", "HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg");
+        //     },
+        success: function (data) {
+            console.info(data);
+        },
+        error: function (data) {
+            console.info(data);
+        }
     });
 }
