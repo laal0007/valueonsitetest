@@ -43,130 +43,134 @@
     </div>
   </nav>
 
-  <section class="my-5">
-    <h2>Demo</h2>
-    <p>Include brief description of how to use demo here; Lorem ipsum dolar.</p>
-  </section>
+  <div class="narrow-content">
 
-  <section class="my-5 demo-container">
-    <!-- table options -->
-    <div>
-      <div class="row" id="demo-options">
-        <div class="col-md-1" id="modifier">
-          <div class="form-group">
-            <label for="modifier">Modifier:</label>
-            <input type="number" class="form-control" id="modifier" placeholder="0">
+    <section class="my-5">
+      <h2>Demo</h2>
+      <p>Include brief description of how to use demo here; Lorem ipsum dolar.</p>
+    </section>
+
+    <section class="my-5 demo-container">
+      <!-- table options -->
+      <div>
+        <div class="row" id="demo-options">
+          <div class="col-md-1" id="modifier">
+            <div class="form-group">
+              <label for="modifier">Modifier:</label>
+              <input type="number" class="form-control" id="modifier" placeholder="0">
+            </div>
           </div>
-        </div>
-        <div class="col-md-3" id="title-block">
-          <div class="form-group" id="title-label">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" placeholder="Scenario 1">
+          <div class="col-md-3" id="title-block">
+            <div class="form-group" id="title-label">
+              <label for="title">Title:</label>
+              <input type="text" class="form-control" id="title" placeholder="Scenario 1">
+            </div>
           </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="form-group" id="dropdown-menu">
-            <label for="dropdown" >Select Saved Scenario:</label><button type="button" id="scenario-dropdown" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scenario 1</button>
-            <div class="dropdown-menu"  >
-              <a class="dropdown-item" href="#">Scenario 1</a>
-              <a class="dropdown-item" href="#">Scenario 2</a>
-              <a class="dropdown-item" href="#">Scenario 3</a>
+          <div class="col-lg-6 col-md-12">
+            <div class="form-group" id="dropdown-menu">
+              <label for="dropdown">Select Saved Scenario:</label><button type="button" id="scenario-dropdown" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scenario 1</button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Scenario 1</a>
+                <a class="dropdown-item" href="#">Scenario 2</a>
+                <a class="dropdown-item" href="#">Scenario 3</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group" role="group" aria-label="Scenario options">
+              <button type="button" class="btn custom-button2 mr-md-3" id="save-button">Save Scenario</button>
+              <button type="button" class="btn custom-button">Delete Scenario</button>
+            </div>
+          </div>
+          <div class="col-lg-6 ">
+            <div class="float-right form-group" role="group" aria-label="Scenario options">
+              <button id="add_row_button" type="button" class="btn custom-button2">Add Row</button>
             </div>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div class="form-group" role="group" aria-label="Scenario options">
-            <button type="button" class="btn custom-button2 mr-md-3" id="save-button">Save Scenario</button>
-            <button type="button" class="btn custom-button">Delete Scenario</button>
+
+        <!-- Table input -->
+        <table id="demo_table" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Input1</th>
+              <th>Input2</th>
+              <th>Output1</th>
+              <th>Input3</th>
+              <th>Output2</th>
+              <th>Delete Row</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row_0">
+              <td class="input-value">
+                <input id="input_name" type="text" class="form-control" placeholder="Name">
+              </td>
+              <td class="input-value">
+                <input id="input_1" type="number" class="form-control" placeholder="Input1">
+              </td>
+              <td class="input-value">
+                <input id="input_2" type="number" class="form-control" placeholder="Input2">
+              </td>
+              <td class="output-value">
+                <input id="output_1" type="number" class="form-control" placeholder="" disabled="true">
+              </td>
+              <td class="input-value">
+                <input id="input_3" type="number" class="form-control" placeholder="Input3">
+              </td>
+              <td class="output-value">
+                <input id="output_2" type="number" class="form-control" placeholder="" disabled="true">
+              </td>
+              <td class="delete-row">
+                <button id="delete_0" type="button" class="btn">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+            <tr id="row_1">
+              <td class="input-value">
+                <input id="input_name" type="text" class="form-control" placeholder="Name">
+              </td>
+              <td class="input-value">
+                <input id="input_1" type="number" class="form-control" placeholder="Input1">
+              </td>
+              <td class="input-value">
+                <input id="input_2" type="number" class="form-control" placeholder="Input2">
+              </td>
+              <td class="output-value">
+                <input id="output_1" type="number" class="form-control" placeholder="" disabled="true">
+              </td>
+              <td class="input-value">
+                <input id="input_3" type="number" class="form-control" placeholder="Input3">
+              </td>
+              <td class="output-value">
+                <input id="output_2" type="number" class="form-control" placeholder="" disabled="true">
+              </td>
+              <td class="delete-row">
+                <button id="delete_1" type="button" class="btn">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="float-right form-group" role="group" aria-label="Scenario options">
+              <button id="calculate_button" type="button" class="btn custom-button2">Calculate</button>
+            </div>
           </div>
         </div>
-        <div class="col-lg-6 ">
-          <div class="float-right form-group" role="group" aria-label="Scenario options">
-            <button id="add_row_button" type="button" class="btn custom-button2">Add Row</button>
-          </div>
-        </div>
+
       </div>
 
-      <!-- Table input -->
-      <table id="demo_table" class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Input1</th>
-            <th>Input2</th>
-            <th>Output1</th>
-            <th>Input3</th>
-            <th>Output2</th>
-            <th>Delete Row</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="row_0">
-            <td class="input-value">
-              <input id="input_name" type="text" class="form-control" placeholder="Name">
-            </td>
-            <td class="input-value">
-              <input id="input_1" type="number" class="form-control" placeholder="Input1">
-            </td>
-            <td class="input-value">
-              <input id="input_2" type="number" class="form-control" placeholder="Input2">
-            </td>
-            <td class="output-value">
-              <input id="output_1" type="number" class="form-control" placeholder="" disabled="true">
-            </td>
-            <td class="input-value">
-              <input id="input_3" type="number" class="form-control" placeholder="Input3">
-            </td>
-            <td class="output-value">
-              <input id="output_2" type="number" class="form-control" placeholder="" disabled="true">
-            </td>
-            <td class="delete-row">
-              <button id="delete_0" type="button" class="btn">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </button>
-            </td>
-          </tr>
-          <tr id="row_1">
-            <td class="input-value">
-              <input id="input_name" type="text" class="form-control" placeholder="Name">
-            </td>
-            <td class="input-value">
-              <input id="input_1" type="number" class="form-control" placeholder="Input1">
-            </td>
-            <td class="input-value">
-              <input id="input_2" type="number" class="form-control" placeholder="Input2">
-            </td>
-            <td class="output-value">
-              <input id="output_1" type="number" class="form-control" placeholder="" disabled="true">
-            </td>
-            <td class="input-value">
-              <input id="input_3" type="number" class="form-control" placeholder="Input3">
-            </td>
-            <td class="output-value">
-              <input id="output_2" type="number" class="form-control" placeholder="" disabled="true">
-            </td>
-            <td class="delete-row">
-              <button id="delete_1" type="button" class="btn">
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    </section>
 
-
-
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="float-right form-group" role="group" aria-label="Scenario options">
-            <button id="calculate_button" type="button" class="btn custom-button2">Calculate</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
+  </div>
 
 
 
