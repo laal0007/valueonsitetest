@@ -20,7 +20,7 @@ function init() {
 function AddRow() {
     console.log('AddRow');
 
-    rowCount++;
+    additionalRowCount++;
 
     // Create a copy of the first row
     const row = $('#row_0')[0].cloneNode(true) as HTMLElement;
@@ -29,11 +29,11 @@ function AddRow() {
     $(row).find('input').val('');
 
     // Update the new Row Id
-    $(row).attr('id', 'row_' + rowCount);
+    $(row).attr('id', 'row_' + additionalRowCount);
 
-    console.log(rowCount);
+    console.log(additionalRowCount);
     // Update the new Row Delete Button Id
-    $($(row).children().last()[0]).children().attr('id', 'delete_' + rowCount);
+    $($(row).children().last()[0]).children().attr('id', 'delete_' + additionalRowCount);
 
     // $('#row_0')[0].lastChild
 

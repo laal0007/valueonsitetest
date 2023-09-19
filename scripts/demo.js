@@ -1,46 +1,93 @@
 jQuery(function () {
     init();
 });
-var rowCount = 1;
+
+let additionalRowCount = 2;
+
 function init() {
     console.log('init');
+    if (!localStorage.getItem('AgreedToTerms') || localStorage.getItem('AgreedToTerms') === 'false') {
+        localStorage.setItem('AgreedToTerms', 'false');
+        $('#abbreviatedDemo').show();
+        $('#fullDemo').remove();
+    }
+
     $('#add_row_button').on('click', AddRow);
-    $('body').on('click', '[id^=delete_]', function (event) {
+    $('body').on('click', '[id*=_delete]', function (event) {
         RemoveRow(event);
     });
     $('#calculate_button').on('click', Calculate);
+
+    $('#agree_check').on('change', AcceptTermsChecked);
+
+    $('#saveTerms').on('click', AgreeToTerms);
+    $('#cancelTerms').on('click', CloseTerms);
+    $('#closeModal').on('click', CloseTerms);    
+
+    if (localStorage.getItem('AgreedToTerms') && localStorage.getItem('AgreedToTerms') === 'true') {
+        $('#abbreviatedDemo').hide();
+        $('#fullDemo').show();
+    }
+    $('#row_0_delete').hide();
+    
 }
+
+function AcceptTermsChecked() {
+    if (this.checked) {
+        $('#saveTerms').prop('disabled', false);
+    } else {
+        $('#saveTerms').prop('disabled', true);
+    }
+}
+
+function AgreeToTerms() {
+    localStorage.setItem('AgreedToTerms', 'true');
+    CloseTerms();
+    location.reload();
+}
+
+function CloseTerms() {
+    $("#exampleModalLong").modal('hide');
+}
+
 function AddRow() {
     console.log('AddRow');
-    rowCount++;
+    additionalRowCount++;
+
     // Create a copy of the first row
     var row = $('#row_0')[0].cloneNode(true);
     // Clear out any existing values
     $(row).find('input').val('');
     // Update the new Row Id
-    $(row).attr('id', 'row_' + rowCount);
-    console.log(rowCount);
-    // Update the new Row Delete Button Id
-    $($(row).children().last()[0]).children().attr('id', 'delete_' + rowCount);
-    // $('#row_0')[0].lastChild
+    $(row).attr('id', 'row_' + additionalRowCount);
+
+    // Update the new row id's
+    $(row).find('#row_0_input_name').attr('id', 'row_' + additionalRowCount + '_input_name');
+    $(row).find('#row_0_input_1').attr('id', 'row_' + additionalRowCount + '_input_1');
+    $(row).find('#row_0_input_2').attr('id', 'row_' + additionalRowCount + '_input_2');
+    $(row).find('#row_0_output').attr('id', 'row_' + additionalRowCount + '_output');
+    $(row).find('#row_0_delete').attr('id', 'row_' + additionalRowCount + '_delete');    
     // Add that new row to the end of the table
     $(row).insertAfter($('#demo_table tbody tr:last'));
+    $('#row_' + additionalRowCount + '_delete').show();
 }
+
 function RemoveRow(event) {
     console.log('RemoveRow');
     // Get the Index for the Remove Button that was clicked
     var index = null;
     if (event.target.id) {
-        index = event.target.id.slice(6)[1];
+        index = event.target.id.slice(4,5)[0];
     }
     else {
-        index = event.target.parentElement.id.slice(6)[1];
+        index = event.target.parentElement.id.slice(4,5)[0];
     }
     // Get the Row that was clicked
     var row = $('#row_' + index)[0];
     // Remove it from the table
     row.remove();
 }
+
 function Calculate() {
     var rows = $('#demo_table tbody').children();
     var item = {
