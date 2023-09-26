@@ -18,7 +18,7 @@ function init() {
     });
     $('#calculate_button').on('click', Calculate);
 
-    $('#agree_check').on('change', AcceptTermsChecked);
+    // $('#agree_check').on('change', AcceptTermsChecked);
 
     $('#saveTerms').on('click', AgreeToTerms);
     $('#cancelTerms').on('click', CloseTerms);
@@ -32,13 +32,13 @@ function init() {
     
 }
 
-function AcceptTermsChecked() {
-    if (this.checked) {
-        $('#saveTerms').prop('disabled', false);
-    } else {
-        $('#saveTerms').prop('disabled', true);
-    }
-}
+// function AcceptTermsChecked() {
+//     if (this.checked) {
+//         $('#saveTerms').prop('disabled', false);
+//     } else {
+//         $('#saveTerms').prop('disabled', true);
+//     }
+// }
 
 function AgreeToTerms() {
     localStorage.setItem('AgreedToTerms', 'true');

@@ -4,7 +4,7 @@ nav,
 .copyright {
   background-color: #4BB7BA;
   color: #fff;
-  padding: 0.5rem;
+  padding: 0.3rem !important;
 }
 
 .shadow-t {
@@ -59,12 +59,20 @@ p, li {
   margin: 1rem;
 }
 
+h6 {
+  margin-bottom: 0px !important;
+}
+
+.footer {
+  padding: 1rem !important;
+}
+
 footer p {
   margin: 0rem;
 }
 
 footer h6 {
-  margin: 0rem;
+  margin: 0 0 0 0 !important;
 }
 
 a {
@@ -215,6 +223,32 @@ img {
   width: auto !important;
 }
 
+.base_row {
+  border-width: 3px;
+  border-color: red;
+  border-style: solid;
+}
+
+.input-icon {
+  position: relative;
+}
+
+.input-icon > i {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+  font-style: normal;
+}
+
+.input-icon > input {
+  padding-left: 25px;
+  padding-right: 0;
+}
+
 tr:nth-child(odd) {
   background-color: rgba(0,0,0,.1) !important;
 }
@@ -239,6 +273,14 @@ thead {
 /* Target the last column */
 td:nth-child(-n+7) {
   border: none;
+}
+
+.legend {
+  margin: 1.5rem;
+}
+
+.legend > h3 {
+  margin: 0px 0 1rem -1rem;
 }
 
 #calculate_button,
@@ -274,10 +316,12 @@ td:nth-child(-n+7) {
   .demo-container .form-control {
     width: min-content;
   }
-
-
 }
 
+.wide-demo {
+  /* width: 1800px !important; */
+  max-width: 1370px !important;
+}
 
 /* fonts */
 @media (min-width: 48rem) {
