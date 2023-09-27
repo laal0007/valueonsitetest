@@ -288,7 +288,7 @@ td:nth-child(-n+7) {
   background-color: #4BB7BA;
 }
 
-#scenario-dropdown {
+#scenario-dropdown-label {
   background-color: #fff;
   /* width: 50%; */
 }
@@ -298,12 +298,16 @@ td:nth-child(-n+7) {
   flex-direction: column;
 }
 
-#scenario-dropdown {
+#scenario-dropdown-label {
   background-color: #fff;
   max-width: max-content;
   color: #4BB7BA;
   border-color: #4BB7BA;
   padding: 0.5rem 3rem 0.5rem 3rem;
+}
+
+.dropdown-item {
+  display: inline;
 }
 
 /* Make the demo container span the full width */

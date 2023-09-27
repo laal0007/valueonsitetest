@@ -10,6 +10,9 @@ function init() {
         localStorage.setItem('AgreedToTerms', 'false');
         $('#abbreviatedDemo').show();
         $('#fullDemo').remove();
+    } else {
+        $('#abbreviatedDemo').remove();
+        $('#fullDemo').show();
     }
 
     $('#add_row_button').on('click', AddRow);
@@ -22,14 +25,50 @@ function init() {
 
     $('#saveTerms').on('click', AgreeToTerms);
     $('#cancelTerms').on('click', CloseTerms);
-    $('#closeModal').on('click', CloseTerms);    
+    $('#closeModal').on('click', CloseTerms);
 
-    if (localStorage.getItem('AgreedToTerms') && localStorage.getItem('AgreedToTerms') === 'true') {
-        $('#abbreviatedDemo').hide();
-        $('#fullDemo').show();
-    }
+    $('#scenario-save-button').on('click', SaveScenario);
+    $('#scenario-delete-button').on('click', DeleteScenario);
+
     $('#row_0_delete').hide();
-    
+
+    if (localStorage.getItem('Scenarios')) {
+        const dropdown = $('#scenario-dropdown');
+        const test = JSON.parse(localStorage.getItem('Scenarios'));
+        for (const scenario of test) {
+            dropdown.append(`<div>            
+            <button id="asdfs" type="button">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+            <a class="dropdown-item" href="#">${scenario.name}</a>
+          </div>`);
+        }
+        
+    }
+
+}
+
+function SaveScenario() {
+
+    //'{"name":"John", "age":30, "car":null}'
+    let savedScenarios = [];
+    if (localStorage.getItem('Scenarios')) {
+        savedScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+    }
+
+    if (savedScenarios !== []) {
+        savedScenarios.push({ name: $('#scenario-title').val() });
+    }
+
+    localStorage.setItem('Scenarios', JSON.stringify(savedScenarios));
+
+    const dropdown = $('#scenario-dropdown');
+    dropdown.append('<a class="dropdown-item" href="#">' + $('#scenario-title').val() + '</a>');
+    //<a class="dropdown-item" href="#">Scenario 1</a>
+}
+
+function DeleteScenario() {
+
 }
 
 // function AcceptTermsChecked() {
@@ -66,7 +105,7 @@ function AddRow() {
     $(row).find('#row_0_input_1').attr('id', 'row_' + additionalRowCount + '_input_1');
     $(row).find('#row_0_input_2').attr('id', 'row_' + additionalRowCount + '_input_2');
     $(row).find('#row_0_output').attr('id', 'row_' + additionalRowCount + '_output');
-    $(row).find('#row_0_delete').attr('id', 'row_' + additionalRowCount + '_delete');    
+    $(row).find('#row_0_delete').attr('id', 'row_' + additionalRowCount + '_delete');
     // Add that new row to the end of the table
     $(row).insertAfter($('#demo_table tbody tr:last'));
     $('#row_' + additionalRowCount + '_delete').show();
@@ -77,10 +116,10 @@ function RemoveRow(event) {
     // Get the Index for the Remove Button that was clicked
     var index = null;
     if (event.target.id) {
-        index = event.target.id.slice(4,5)[0];
+        index = event.target.id.slice(4, 5)[0];
     }
     else {
-        index = event.target.parentElement.id.slice(4,5)[0];
+        index = event.target.parentElement.id.slice(4, 5)[0];
     }
     // Get the Row that was clicked
     var row = $('#row_' + index)[0];
