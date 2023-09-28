@@ -57,7 +57,7 @@
     <div class="narrow-content">
 
       <section class="my-5">
-        <h2>Demo</h2>
+        <h2 id="demo-title">Demo</h2>
         <p>Welcome to the abbreviated version demonstration of our "VALUEWAND" product. Comparison shopping
           has never been easier. Based on minimal user inputs the software will calculate the purchase option
           that provides that provides the <strong>"best overall value"</strong> . This stands in contrast to the intuitive
@@ -268,35 +268,45 @@
             <div class="legend">
               <h3 class="legend-title">User Inputs</h3>
               <h5>Quality/Performance</h5>
-              <p>Quality/Performance is the value for any given Line Item as perceived by the user.</p>
+              <p>
+                Quality/Performance is the value for any given Line Item as perceived by the user.
+              </p>
               </br>
               <h5>List Price</h5>
-              <p>List Price for each viable purchase option or Line Item that satisfies a minimum MANDATORY REQUIREMENT as defined by the user.</p>
+              <p>
+                List Price for each viable purchase option or Line Item that satisfies a minimum MANDATORY REQUIREMENT as defined by the user.
+              </p>
               </br>
               <h5>Base</h5>
-              <p>Base represents the Line Item against which all other Line Items are compared. It may or may not be the
+              <p>
+                Base, highlighted in red, represents the Line Item against which all other Line Items are compared. It may or may not be the
                 lowest Price Line Item. The user may have ostensibly decided on a purchase and can populate the Table
                 with higher and lower Price Line Items to see if the intended purchase seems reasonable. There may
                 also be occasions where a Line Item that does not offer the "best overall value" but the user still has a
                 preference for it. In this case we will set the preferred item as the base to determine if the metrics
-                can justify acquisition of the item in question.</p>
+                can justify acquisition of the item in question.
+              </p>
               </br>
               <h3 class="legend-title">Calculated Values</h3>
               <h5>Relative Value</h5>
-              <p>Relative Value is the difference in dollar terms between the List Price and an internally calculated
+              <p>
+                Relative Value is the difference in dollar terms between the List Price and an internally calculated
                 Value Price (VP). A positive amount represents a Value Price greater than the List Price
                 which is a desirable outcome with the opposite being true. The magnitude of the difference
-                determines the relative value for each option.</p>
+                determines the relative value for each option.
+              </p>
               </br>
             </div>
             <div class="legend">
               <h3 class="legend-title">Modeling Operations</h3>
               <h5>Overview</h5>
-              <p>It should be remembered that the purpose of our analysis is to provide an objective rationale
+              <p>
+                It should be remembered that the purpose of our analysis is to provide an objective rationale
                 for decision making. Having said that there is an inherent element of subjectivity involved which
                 will influence potential outcomes. In other words we are not attempting to measure with a micrometer
                 nor are we cutting with an axe. We view this approach as being consistent with the well established
-                idiom that the enemy of the good is the perfect and as such provides credence to any given decision arrived at.</p>
+                idiom that the enemy of the good is the perfect and as such provides credence to any given decision arrived at.
+              </p>
             </div>
           </section>
 
@@ -389,141 +399,155 @@
 
       <section class="my-5 demo-container container">
 
-        <!-- <section> -->
         <!-- table options -->
-        <div class="row justify-content-md-center">
+        <!-- <div class="row justify-content-md-center">
           <div class="col-sm-4" id="title-block">
             <div class="form-group" id="title-label">
               <label for="title"><strong>Scenario:</strong></label>
               <input type="text" class="form-control" id="scenario-title" placeholder="Enter Scenario Title">
             </div>
-            <!-- </div>
-              <div class="col-md-2 form-group" role="group" aria-label="Scenario options"> -->
             <button type="button" class="btn custom-button2 mr-md-3" id="scenario-save-button" style="top: 27px">Save Scenario</button>
           </div>
-          <!-- </div>
-  
-        <div class="row" id="demo-options"> -->
+
           <div class="col-md-4">
             <div class="form-group" id="dropdown-menu">
               <label for="dropdown"><strong>Select Saved Scenario:</strong></label>
               <button type="button" id="scenario-dropdown-label" class="btn btn-secondary dropdown-toggle" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">Select Scenario</button>
               <div id="scenario-dropdown" class="dropdown-menu">
-                <!-- <div style="display: inline-block;">
-                  <a class="dropdown-item" href="#">testing</a>
-                  <button id="asdfs" type="button">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </div> -->
               </div>
             </div>
-            <!-- </div>
-          <div class="col-md-2"> -->
             <div class="form-group" role="group" aria-label="Scenario options">
               <button id="scenario-delete-button" type="button" class="btn custom-button">Delete Scenario</button>
             </div>
           </div>
-        </div>
-        <!-- </section> -->
+        </div> -->
 
         <div class="row justify-content-md-center">
-          <table id="demo_table" class="table table-bordered table-striped w-auto">
-            <thead>
-              <tr>
-                <th scope="col" class="form-control-large">Item</th>
-                <th scope="col" class="form-control-small">Quality/Performance</th>
-                <th scope="col" class="form-control-small">List Price</th>
-                <th scope="col" class="form-control-small">Relative Value</th>
-                <th scope="col" class="form-control-small">Delete Row</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr id="row_0">
-                <td scope="row" class="input-value">
-                  <input id="row_0_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
+          <div class="col-sm">
+            <!-- <div class="form-group" id="title-label">
+              <label for="title"><strong>Scenario:</strong></label>
+              <input type="text" class="form-control" id="scenario-title" placeholder="Enter Scenario Title">
+            </div> -->
+            <!-- </div>
+              <div class="col-md-2 form-group" role="group" aria-label="Scenario options"> -->
+            <!-- <button type="button" class="btn custom-button2 mr-md-3" id="scenario-save-button" style="top: 27px">Save Scenario</button> -->
+
+            <div class="test-div">
+              <div class="input-group">
+                <input id="scenario-title" type="text" class="form-control" placeholder="Scenario Name" maxlength="20">
+                <button id="scenario-save-button" class="btn btn-outline-secondary example" type="button">Save</button>
+              </div>
+              <ul id="scenario-list">
+                
+              </ul>
+            </div>
+
+            <!-- <div class="form-group" id="dropdown-menu">
+              <label for="dropdown"><strong>Saved Scenario:</strong></label>
+              <button type="button" id="scenario-dropdown-label" class="btn btn-secondary dropdown-toggle" data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">Select Scenario</button>
+              <div id="scenario-dropdown" class="dropdown-menu">
+              </div>
+            </div> -->
+          </div>
+          <div class="col-sm">
+            <table id="demo_table" class="table table-bordered table-striped w-auto">
+              <thead>
+                <tr>
+                  <th scope="col" class="form-control-large">Item</th>
+                  <th scope="col" class="form-control-small">Quality/Performance</th>
+                  <th scope="col" class="form-control-small">List Price</th>
+                  <th scope="col" class="form-control-small">Relative Value</th>
+                  <th scope="col" class="form-control-small">Delete Row</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row_0">
+                  <td scope="row" class="input-value">
+                    <input id="row_0_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
+                  </td>
+                  <td class="input-value">
+                    <input id="row_0_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
+                  </td>
+                  <td class="input-value input-icon">
+                    <input id="row_0_input_2" type="number" class="form-control form-control-small" max="100000000">
+                    <i>$</i>
+                  </td>
+                  <td class="output-value input-icon">
+                    <input id="row_0_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
+                    <i>$</i>
+                  </td>
+                  <td class="delete-row">
+                    <button id="row_0_delete" type="button" class="btn btn-red">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr id="row_1">
+                  <td scope="row" class="input-value">
+                    <input id="row_1_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
+                  </td>
+                  <td class="input-value">
+                    <input id="row_1_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
+                  </td>
+                  <td class="input-value input-icon">
+                    <input id="row_1_input_2" type="number" class="form-control form-control-small" max="100000000">
+                    <i>$</i>
+                  </td>
+                  <td class="output-value input-icon">
+                    <input id="row_1_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
+                    <i>$</i>
+                  </td>
+                  <td class="delete-row">
+                    <button id="row_1_delete" type="button" class="btn btn-red">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr id="row_2">
+                  <td scope="row" class="input-value">
+                    <input id="row_2_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
+                  </td>
+                  <td class="input-value">
+                    <input id="row_2_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
+                  </td>
+                  <td class="input-value input-icon">
+                    <input id="row_2_input_2" type="number" class="form-control form-control-small" max="100000000">
+                    <i>$</i>
+                  </td>
+                  <td class="output-value input-icon">
+                    <input id="row_2_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
+                    <i>$</i>
+                  </td>
+                  <td class="delete-row">
+                    <button id="row_2_delete" type="button" class="btn btn-red">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr id="row_3" class="base_row">
+                  <td scope="row" class="input-value">
+                    <input id="row_3_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
+                  </td>
+                  <td class="input-value">
+                    <input id="row_3_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3"">
                 </td>
-                <td class="input-value">
-                  <input id="row_0_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
-                </td>
-                <td class="input-value input-icon">
-                  <input id="row_0_input_2" type="number" class="form-control form-control-small" max="100000000">
-                  <i>$</i>
-                </td>
-                <td class="output-value input-icon">
-                  <input id="row_0_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
-                  <i>$</i>
-                </td>
-                <td class="delete-row">
-                  <button id="row_0_delete" type="button" class="btn btn-red">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr id="row_1">
-                <td scope="row" class="input-value">
-                  <input id="row_1_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
-                </td>
-                <td class="input-value">
-                  <input id="row_1_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
-                </td>
-                <td class="input-value input-icon">
-                  <input id="row_1_input_2" type="number" class="form-control form-control-small" max="100000000">
-                  <i>$</i>
-                </td>
-                <td class="output-value input-icon">
-                  <input id="row_1_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
-                  <i>$</i>
-                </td>
-                <td class="delete-row">
-                  <button id="row_1_delete" type="button" class="btn btn-red">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr id="row_2">
-                <td scope="row" class="input-value">
-                  <input id="row_2_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
-                </td>
-                <td class="input-value">
-                  <input id="row_2_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3">
-                </td>
-                <td class="input-value input-icon">
-                  <input id="row_2_input_2" type="number" class="form-control form-control-small" max="100000000">
-                  <i>$</i>
-                </td>
-                <td class="output-value input-icon">
-                  <input id="row_2_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
-                  <i>$</i>
-                </td>
-                <td class="delete-row">
-                  <button id="row_2_delete" type="button" class="btn btn-red">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr id="row_3" class="base_row">
-                <td scope="row" class="input-value">
-                  <input id="row_3_input_name" type="text" class="form-control form-control-large" placeholder="Name" maxlength="50">
-                </td>
-                <td class="input-value">
-                  <input id="row_3_input_1" type="number" class="form-control form-control-small" placeholder="1-3" max="3"">
-                </td>
-                <td class="input-value input-icon">
-                  <input id="row_3_input_2" type="number" class="form-control form-control-small" max="100000000">
-                  <i>$</i>
-                </td>
-                <td class="output-value input-icon">
-                  <input id="row_3_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
-                  <i>$</i>
-                </td>
-                <td class="delete-row">
-                  <button id="row_3_delete" type="button" class="btn btn-red">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                <td class=" input-value input-icon">
+                    <input id="row_3_input_2" type="number" class="form-control form-control-small" max="100000000">
+                    <i>$</i>
+                  </td>
+                  <td class="output-value input-icon">
+                    <input id="row_3_output" type="number" class="form-control form-control-small" placeholder="" disabled="true">
+                    <i>$</i>
+                  </td>
+                  <td class="delete-row">
+                    <button id="row_3_delete" type="button" class="btn btn-red">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- <div class="row flex">
@@ -566,7 +590,7 @@
             </br>
             <h5>Base</h5>
             <p>
-              Base represents the Line Item against which all other Line Items are compared. It may or may not be the
+              Base, highlighted in red, represents the Line Item against which all other Line Items are compared. It may or may not be the
               lowest Price Line Item. The user may have ostensibly decided on a purchase and can populate the Table
               with higher and lower Price Line Items to see if the intended purchase seems reasonable. There may
               also be occasions where a Line Item that does not offer the "best overall value" but the user still has a

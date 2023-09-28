@@ -1,5 +1,7 @@
-jQuery(function () {
+jQuery(function ($) {
     init();
+
+
 });
 
 let additionalRowCount = 2;
@@ -33,42 +35,66 @@ function init() {
     $('#row_0_delete').hide();
 
     if (localStorage.getItem('Scenarios')) {
-        const dropdown = $('#scenario-dropdown');
-        const test = JSON.parse(localStorage.getItem('Scenarios'));
-        for (const scenario of test) {
-            dropdown.append(`<div>            
-            <button id="asdfs" type="button">
-              <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-            <a class="dropdown-item" href="#">${scenario.name}</a>
-          </div>`);
-        }
-        
+        const dropdown = $('#scenario-list');
+        const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+        listOfScenarios.forEach(function (scenario, i) {
+            dropdown.append(`<li id="scenario_item_${i}" class="saved-scenario">
+                ${scenario.name}
+                <button id="delete_scenario_${i}" type="button" class="hidden-child">
+                 <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                </li>`);
+        });
     }
 
+    $(document).on('click', '.hidden-child', function () {
+        console.log('dynamic');
+        const row = $(this).attr('id').slice($(this).attr('id').length-1);
+        DeleteScenario(row);
+    });
 }
 
 function SaveScenario() {
 
-    //'{"name":"John", "age":30, "car":null}'
-    let savedScenarios = [];
+    const input = $('#scenario-title').val().trim();
+
+    if (input == '' || input === null || input.trim() === '') {
+        return;
+    }
+
+    let savedScenarios = Array();
     if (localStorage.getItem('Scenarios')) {
         savedScenarios = JSON.parse(localStorage.getItem('Scenarios'));
     }
-
-    if (savedScenarios !== []) {
-        savedScenarios.push({ name: $('#scenario-title').val() });
+    if (savedScenarios.length >= 7) {
+        return;
     }
 
+    if (savedScenarios.length > 0) {
+        savedScenarios.push({ name: input });
+    } else {
+        savedScenarios = [{ name: input }];
+    }
     localStorage.setItem('Scenarios', JSON.stringify(savedScenarios));
 
-    const dropdown = $('#scenario-dropdown');
-    dropdown.append('<a class="dropdown-item" href="#">' + $('#scenario-title').val() + '</a>');
-    //<a class="dropdown-item" href="#">Scenario 1</a>
+    const dropdown = $('#scenario-list');
+    const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+    dropdown.append(`<li id="scenario_item_${listOfScenarios.length - 1}" class="saved-scenario">
+         ${input}
+        <button id="delete_scenario_${listOfScenarios.length - 1}" type="button" class="hidden-child">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        </li>`);
+
+    $('#scenario-title').val('');
 }
 
-function DeleteScenario() {
+function DeleteScenario(i) {
+    $('#scenario_item_' + i).remove();
 
+    let listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+    listOfScenarios.splice(i, 1);
+    localStorage.setItem('Scenarios', JSON.stringify(listOfScenarios));
 }
 
 // function AcceptTermsChecked() {
@@ -82,6 +108,7 @@ function DeleteScenario() {
 function AgreeToTerms() {
     localStorage.setItem('AgreedToTerms', 'true');
     CloseTerms();
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     location.reload();
 }
 
