@@ -266,11 +266,28 @@ thead {
   margin-top: 5px;
 }
 
-.delete-row {
+.btn-green {
+  background-color: green;
+  color: #fff;
+  margin-top: 5px;
+}
+
+.button-row {
   border: none;
   text-align: center;
-  min-width: 64px !important;
+  min-width: 67px !important;
 }
+
+/* .set-base {
+  display: none;
+}
+.set-base:hover button {
+  display: block !important;
+} */
+
+/* td.set-base:hover button{
+  display: block !important;
+} */
 
 /* Target the last column */
 td:nth-child(-n+7) {
@@ -356,15 +373,15 @@ input[type="text"] {
   background-color: lightgray;
 }
 
-.hidden-child {
+.hidden-delete-button {
   float: right;
 }
 
-li[id^="scenario_item_"] .hidden-child{
+li[id^="scenario_item_"] .hidden-delete-button{
   visibility: hidden;
 }
 
-li[id^="scenario_item_"]:hover .hidden-child{
+li[id^="scenario_item_"]:hover .hidden-delete-button{
   visibility: visible;
 }
 
@@ -386,6 +403,12 @@ li[id^="scenario_item_"]:hover .hidden-child{
   /* width: 1800px !important; */
   max-width: 1420px !important;
 }
+
+.live-demo {
+  /* width: 1800px !important; */
+  max-width: 1220px !important;
+}
+
 
 /* fonts */
 @media (min-width: 48rem) {

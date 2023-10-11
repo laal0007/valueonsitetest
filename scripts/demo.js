@@ -3,6 +3,7 @@ jQuery(function ($) {
 });
 
 let additionalRowCount = 3;
+const rowLimit = 5;
 
 function init() {
     console.log('init');
@@ -33,6 +34,25 @@ function init() {
     $('#row_0_delete').hide();
     $('#row_1_delete').hide();
     $('#row_2_delete').hide();
+    $('#row_3_delete').hide();
+
+    $('#row_0_base').hide();
+    $('#row_1_base').hide();
+    $('#row_2_base').hide();
+    $('#row_3_base').hide();
+
+    $('.set-base').on("mouseenter",
+        function () {
+            console.log('enter');
+            $(this).children().show();
+        }).on("mouseleave",
+            function () {
+                console.log('leave');
+                $(this).children().hide();
+            });
+
+
+    $('.set-base').on("click", SetBase);
 
     if (localStorage.getItem('Scenarios')) {
         const dropdown = $('#scenario-list');
@@ -40,14 +60,14 @@ function init() {
         listOfScenarios.forEach(function (scenario, i) {
             dropdown.append(`<li id="scenario_item_${i}" class="saved-scenario">
                 ${Object.keys(scenario)[0]}
-                <button id="delete_scenario_${i}" type="button" class="hidden-child">
+                <button id="delete_scenario_${i}" type="button" class="hidden-delete-button">
                  <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
                 </li>`);
         });
     }
 
-    $(document).on('click', '.hidden-child', function () {
+    $(document).on('click', '.hidden-delete-button', function () {
         const row = $(this).attr('id').slice($(this).attr('id').length - 1);
         DeleteScenario(row);
     });
@@ -55,7 +75,6 @@ function init() {
 
     $(document).on('click', '.saved-scenario', function () {
         ResetTable();
-        // additionalRowCount = 2;
         const scenarioName = $(this)[0].innerText;
         const index = $('.saved-scenario').index(this);
 
@@ -94,6 +113,11 @@ function ResetTable() {
         const item = $(this)[0];
         item.value = '';
     });
+
+
+    if ($('tr[id^=row_]').length <= 3) {
+        AddRow();
+    }
 }
 
 
@@ -171,7 +195,7 @@ function SaveScenario() {
         const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
         dropdown.append(`<li id="scenario_item_${listOfScenarios.length - 1}" class="saved-scenario">
          ${scenarioTitle}
-        <button id="delete_scenario_${listOfScenarios.length - 1}" type="button" class="hidden-child">
+        <button id="delete_scenario_${listOfScenarios.length - 1}" type="button" class="hidden-delete-button">
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
         </li>`);
@@ -222,6 +246,15 @@ function CloseTerms() {
 
 function AddRow() {
     console.log('AddRow');
+
+    if ($('tr[id^=row_]').length > rowLimit) {
+        $('#add_row_button').prop('disabled', true);
+        return;
+    } else {
+        $('#add_row_button').prop('disabled', false);
+    }
+
+
     additionalRowCount++;
 
     // Create a copy of the first row
@@ -242,17 +275,51 @@ function AddRow() {
     $('#row_' + additionalRowCount + '_delete').show();
 }
 
-function RemoveRow(event) {
-    console.log('RemoveRow');
-    additionalRowCount--;
+function SetBase(event) {
+    console.log('SetBase');
+
+    // if ($('tr[id^=row_]').length > rowLimit) {
+    //     $('#add_row_button').prop('disabled', false);
+    // }
+
     // Get the Index for the Remove Button that was clicked
     var index = null;
     if (event.target.id) {
-        index = event.target.id.slice(4, 5)[0];
+        index = event.target.id.split('_')[1];
     }
     else {
-        index = event.target.parentElement.id.slice(4, 5)[0];
+        index = event.target.parentElement.id.split('_')[1];
     }
+
+    $('tr[id^=row_]').each(function () {
+        $(this).removeClass('base_row')
+    });
+
+    $('#row_' + index).addClass('base_row');
+
+
+    // // Get the Row that was clicked
+    // var row = $('#row_' + index)[0];
+    // // Remove it from the table
+    // row.remove();
+}
+
+function RemoveRow(event) {
+    console.log('RemoveRow');
+
+    if ($('tr[id^=row_]').length > rowLimit) {
+        $('#add_row_button').prop('disabled', false);
+    }
+
+    // Get the Index for the Remove Button that was clicked
+    var index = null;
+    if (event.target.id) {
+        index = event.target.id.split('_')[1];
+    }
+    else {
+        index = event.target.parentElement.id.split('_')[1];
+    }
+
     // Get the Row that was clicked
     var row = $('#row_' + index)[0];
     // Remove it from the table
