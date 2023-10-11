@@ -1,10 +1,8 @@
 jQuery(function ($) {
     init();
-
-
 });
 
-let additionalRowCount = 2;
+let additionalRowCount = 3;
 
 function init() {
     console.log('init');
@@ -17,13 +15,13 @@ function init() {
         $('#fullDemo').show();
     }
 
+    $('#reset_button').on('click', ResetTable);
+
     $('#add_row_button').on('click', AddRow);
     $('body').on('click', '[id*=_delete]', function (event) {
         RemoveRow(event);
     });
     $('#calculate_button').on('click', Calculate);
-
-    // $('#agree_check').on('change', AcceptTermsChecked);
 
     $('#saveTerms').on('click', AgreeToTerms);
     $('#cancelTerms').on('click', CloseTerms);
@@ -33,13 +31,15 @@ function init() {
     $('#scenario-delete-button').on('click', DeleteScenario);
 
     $('#row_0_delete').hide();
+    $('#row_1_delete').hide();
+    $('#row_2_delete').hide();
 
     if (localStorage.getItem('Scenarios')) {
         const dropdown = $('#scenario-list');
         const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
         listOfScenarios.forEach(function (scenario, i) {
             dropdown.append(`<li id="scenario_item_${i}" class="saved-scenario">
-                ${scenario.name}
+                ${Object.keys(scenario)[0]}
                 <button id="delete_scenario_${i}" type="button" class="hidden-child">
                  <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
@@ -48,62 +48,166 @@ function init() {
     }
 
     $(document).on('click', '.hidden-child', function () {
-        console.log('dynamic');
-        const row = $(this).attr('id').slice($(this).attr('id').length-1);
+        const row = $(this).attr('id').slice($(this).attr('id').length - 1);
         DeleteScenario(row);
     });
-}
 
-function SaveScenario() {
 
-    const input = $('#scenario-title').val().trim();
+    $(document).on('click', '.saved-scenario', function () {
+        ResetTable();
+        // additionalRowCount = 2;
+        const scenarioName = $(this)[0].innerText;
+        const index = $('.saved-scenario').index(this);
 
-    if (input == '' || input === null || input.trim() === '') {
-        return;
-    }
+        const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+        const scenarioRowCount = listOfScenarios[index][scenarioName].length;
+
+        const currentRowCount = $('tr[id^=row_]').length;
+
+        if (scenarioRowCount < currentRowCount) {
+            const diff = currentRowCount - scenarioRowCount;
+            for (let i = 0; i < diff; i++) {
+                $('tr[id^=row_]').last().remove();
+            }
+        } else if (scenarioRowCount > currentRowCount) {
+            const diff = scenarioRowCount - currentRowCount;
+            for (let i = 0; i < diff; i++) {
+                AddRow();
+            }
+        }
+
+        LoadScenario(scenarioName, index);
+    });
+
+
 
     let savedScenarios = Array();
     if (localStorage.getItem('Scenarios')) {
         savedScenarios = JSON.parse(localStorage.getItem('Scenarios'));
     }
-    if (savedScenarios.length >= 7) {
+    ToggleSaveScenario(savedScenarios);
+}
+
+
+function ResetTable() {
+    $('#demo_table tr td').find("input").each(function () {
+        const item = $(this)[0];
+        item.value = '';
+    });
+}
+
+
+function LoadScenario(scenarioName, index) {
+    const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+    const selectedScenarioRows = listOfScenarios[index][scenarioName];
+    const listOfInputs = $('input[id^=row_]:enabled').toArray();
+
+    let counter = 0;
+    for (let i = 0; i < selectedScenarioRows.length; i++) {
+        const row = selectedScenarioRows[i];
+
+        listOfInputs[counter].value = (row.item);
+        counter++;
+        listOfInputs[counter].value = (row.quality);
+        counter++;
+        listOfInputs[counter].value = (row.price);
+        counter++;
+    }
+}
+
+/**
+ * Save a Scenario to the list
+ */
+function SaveScenario() {
+
+    // Ignore whitespace
+    const scenarioTitle = $('#scenario-title').val().trim();
+    if (scenarioTitle == '' || scenarioTitle === null || scenarioTitle.trim() === '') {
         return;
     }
 
-    if (savedScenarios.length > 0) {
-        savedScenarios.push({ name: input });
-    } else {
-        savedScenarios = [{ name: input }];
-    }
-    localStorage.setItem('Scenarios', JSON.stringify(savedScenarios));
+    let allInputsComplete = true;
+    $('#demo_table tr td').find("input").each(function () {
+        const item = $(this)[0];
+        if (!item.id.includes('output')) {
+            if (!item.value) {
+                allInputsComplete = false;
+            }
+        }
+    });
 
-    const dropdown = $('#scenario-list');
-    const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
-    dropdown.append(`<li id="scenario_item_${listOfScenarios.length - 1}" class="saved-scenario">
-         ${input}
+
+
+    if (!allInputsComplete) {
+        alert('All Inputs must contain a value.')
+    } else {
+        // Push new Scenario Name and Values
+        let savedScenarios = Array();
+        if (localStorage.getItem('Scenarios')) {
+            savedScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+        } else {
+            savedScenarios = [];
+        }
+
+        const inputs = $('#demo_table tr td').find("input:enabled");
+
+        let scenario = {
+            [scenarioTitle]: []
+        };
+        for (let i = 0; i < inputs.length; i += 3) {
+            scenario[scenarioTitle].push({
+                item: inputs[i].value,
+                quality: inputs[i + 1].value,
+                price: inputs[i + 2].value
+            });
+        }
+
+        savedScenarios.push(scenario);
+        localStorage.setItem('Scenarios', JSON.stringify(savedScenarios));
+        ToggleSaveScenario(savedScenarios);
+
+        // Create new List Item
+        const dropdown = $('#scenario-list');
+        const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+        dropdown.append(`<li id="scenario_item_${listOfScenarios.length - 1}" class="saved-scenario">
+         ${scenarioTitle}
         <button id="delete_scenario_${listOfScenarios.length - 1}" type="button" class="hidden-child">
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
         </li>`);
 
-    $('#scenario-title').val('');
+        $('#scenario-title').val('');
+    }
 }
 
+/**
+ * Enable/Disable the Save Scenario input and button
+ * @param {*} savedScenarios  List of saved scenarios
+ */
+
+function ToggleSaveScenario(savedScenarios) {
+    if (savedScenarios.length >= 7) {
+        $('#scenario-save-button').prop('disabled', true);
+        $('#scenario-title').prop('disabled', true);
+    } else {
+        $('#scenario-save-button').prop('disabled', false);
+        $('#scenario-title').prop('disabled', false);
+    }
+}
+
+/**
+ * Deletes a Scenario from the list
+ * @param {*} i index to delete
+ */
 function DeleteScenario(i) {
     $('#scenario_item_' + i).remove();
 
-    let listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
-    listOfScenarios.splice(i, 1);
-    localStorage.setItem('Scenarios', JSON.stringify(listOfScenarios));
-}
+    let savedScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+    savedScenarios.splice(i, 1);
+    localStorage.setItem('Scenarios', JSON.stringify(savedScenarios));
 
-// function AcceptTermsChecked() {
-//     if (this.checked) {
-//         $('#saveTerms').prop('disabled', false);
-//     } else {
-//         $('#saveTerms').prop('disabled', true);
-//     }
-// }
+    ToggleSaveScenario(savedScenarios);
+}
 
 function AgreeToTerms() {
     localStorage.setItem('AgreedToTerms', 'true');
@@ -140,6 +244,7 @@ function AddRow() {
 
 function RemoveRow(event) {
     console.log('RemoveRow');
+    additionalRowCount--;
     // Get the Index for the Remove Button that was clicked
     var index = null;
     if (event.target.id) {

@@ -56,7 +56,7 @@ h3 {
 
 p, li {
   font-family: 'Raleway', sans-serif;
-  margin: 1rem;
+  /* margin: 1rem; */
 }
 
 h6 {
@@ -236,7 +236,7 @@ img {
 .input-icon > i {
   position: absolute;
   display: block;
-  transform: translate(0, -50%);
+  transform: translate(0, -55%);
   top: 50%;
   pointer-events: none;
   width: 25px;
@@ -263,11 +263,13 @@ thead {
 .btn-red {
   background-color: red;
   color: #fff;
+  margin-top: 5px;
 }
 
 .delete-row {
   border: none;
   text-align: center;
+  min-width: 64px !important;
 }
 
 /* Target the last column */
@@ -313,7 +315,7 @@ td:nth-child(-n+7) {
 input[type="text"] {
   width: 200px;
   height: 50px;
-  padding-right: 50px;
+  /* padding-right: 50px; */
 }
 
 .example {
@@ -328,13 +330,30 @@ input[type="text"] {
 }
 
 #scenario-list {
-  list-style: none;
+  width: 339px;
+  height: 254px;
+  /* list-style: none; */
   padding-left: 0;
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 20px;
+  margin-bottom: 0;
 }
+
+
+/* .saved-scenario:nth-child(odd) {
+  background-color: #dcdcdc;
+} */
 
 .saved-scenario {
   height: 30px;
-  width: 250px;
+  width: 295px;
+  padding-left: 10px;
+}
+
+.saved-scenario:hover {
+  cursor: pointer;
+  background-color: lightgray;
 }
 
 .hidden-child {
@@ -349,10 +368,7 @@ li[id^="scenario_item_"]:hover .hidden-child{
   visibility: visible;
 }
 
-.saved-scenario:hover {
-  cursor: pointer;
-  background-color: lightgray;
-}
+
 
 /* Make the demo container span the full width */
 @media (max-width: 1200px) {
@@ -368,7 +384,7 @@ li[id^="scenario_item_"]:hover .hidden-child{
 
 .wide-demo {
   /* width: 1800px !important; */
-  max-width: 1370px !important;
+  max-width: 1420px !important;
 }
 
 /* fonts */
@@ -395,6 +411,7 @@ li[id^="scenario_item_"]:hover .hidden-child{
   .form-control-small {
     /* text-align: center; */
     width: 7em;
+    margin-top: 5px;
   }
 
   .form-control-medium {
