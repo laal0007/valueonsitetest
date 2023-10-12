@@ -36,23 +36,43 @@ function init() {
     $('#row_2_delete').hide();
     $('#row_3_delete').hide();
 
-    $('#row_0_base').hide();
-    $('#row_1_base').hide();
-    $('#row_2_base').hide();
-    $('#row_3_base').hide();
+    // $('#row_0_base').hide();
+    // $('#row_1_base').hide();
+    // $('#row_2_base').hide();
+    // $('#row_3_base').hide();
 
-    $('.set-base').on("mouseenter",
+    $('#demo_table').on("mouseenter", '.set-base',
         function () {
-            console.log('enter');
-            $(this).children().show();
-        }).on("mouseleave",
+            // console.log('enter');
+            // $(this).children().show();
+            $(this).children().removeClass('btn-grey');
+            $(this).children().addClass('btn-green');
+        }).on("mouseleave", '.set-base',
             function () {
-                console.log('leave');
-                $(this).children().hide();
+                // console.log('leave');
+                // $(this).children().hide();
+                if ($(this).children().attr('data-base') === 'false') {
+                    $(this).children().removeClass('btn-green');
+                    $(this).children().addClass('btn-grey');
+                }
+            });
+
+    $('#demo_table').on("mouseenter", '.delete-box',
+        function () {
+            // console.log('enter');
+            // $(this).children().show();
+            $(this).children().removeClass('btn-grey');
+            $(this).children().addClass('btn-red');
+        }).on("mouseleave", '.delete-box',
+            function () {
+                // console.log('leave');
+                // $(this).children().hide();
+                $(this).children().removeClass('btn-red');
+                $(this).children().addClass('btn-grey');
             });
 
 
-    $('.set-base').on("click", SetBase);
+    $('#demo_table').on("click", '.set-base', SetBase);
 
     if (localStorage.getItem('Scenarios')) {
         const dropdown = $('#scenario-list');
@@ -109,6 +129,7 @@ function init() {
 
 
 function ResetTable() {
+    console.log('ResetTable');
     $('#demo_table tr td').find("input").each(function () {
         const item = $(this)[0];
         item.value = '';
@@ -117,7 +138,13 @@ function ResetTable() {
 
     if ($('tr[id^=row_]').length <= 3) {
         AddRow();
+        $('button[id*=_base]').last().addClass('btn-green');
+    } else if ($('tr[id^=row_]').length > 4) {
+        $('tr[id^=row_]').last().remove();
+        ResetTable();
     }
+
+    $('#add_row_button').prop('disabled', false);
 }
 
 
@@ -247,14 +274,6 @@ function CloseTerms() {
 function AddRow() {
     console.log('AddRow');
 
-    if ($('tr[id^=row_]').length > rowLimit) {
-        $('#add_row_button').prop('disabled', true);
-        return;
-    } else {
-        $('#add_row_button').prop('disabled', false);
-    }
-
-
     additionalRowCount++;
 
     // Create a copy of the first row
@@ -270,9 +289,18 @@ function AddRow() {
     $(row).find('#row_0_input_2').attr('id', 'row_' + additionalRowCount + '_input_2');
     $(row).find('#row_0_output').attr('id', 'row_' + additionalRowCount + '_output');
     $(row).find('#row_0_delete').attr('id', 'row_' + additionalRowCount + '_delete');
+    $(row).find('#row_0_base').attr('id', 'row_' + additionalRowCount + '_base');
+
     // Add that new row to the end of the table
     $(row).insertAfter($('#demo_table tbody tr:last'));
     $('#row_' + additionalRowCount + '_delete').show();
+
+    if ($('tr[id^=row_]').length > rowLimit) {
+        $('#add_row_button').prop('disabled', true);
+        return;
+    } else {
+        $('#add_row_button').prop('disabled', false);
+    }
 }
 
 function SetBase(event) {
@@ -291,11 +319,23 @@ function SetBase(event) {
         index = event.target.parentElement.id.split('_')[1];
     }
 
+    // remove base_row from all rows
     $('tr[id^=row_]').each(function () {
-        $(this).removeClass('base_row')
+        $(this).removeClass('base_row');
+    });
+
+    // reset all data-base attributes
+    $('button[id*=_base]').each(function () {
+        $(this).attr('data-base', 'false');
+        $(this).removeClass('btn-green');
+        $(this).addClass('btn-grey');
     });
 
     $('#row_' + index).addClass('base_row');
+    $('#row_' + index + '_base').attr('data-base', 'true');
+    $('#row_' + index + '_base').removeClass('btn-grey');
+    $('#row_' + index + '_base').addClass('btn-green');
+
 
 
     // // Get the Row that was clicked
@@ -322,8 +362,17 @@ function RemoveRow(event) {
 
     // Get the Row that was clicked
     var row = $('#row_' + index)[0];
+
     // Remove it from the table
     row.remove();
+
+    if ($(row).hasClass('base_row')){
+        $('tr[id^=row_]').last().addClass('base_row');
+        $('button[id*=_base]').last().removeClass('btn-grey');
+        $('button[id*=_base]').last().addClass('btn-green');
+        $('button[id*=_base]').last().attr('data-base', 'true');
+
+    }
 }
 
 function Calculate() {

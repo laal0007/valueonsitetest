@@ -272,6 +272,12 @@ thead {
   margin-top: 5px;
 }
 
+.btn-grey {
+  background-color: grey;
+  color: #fff;
+  margin-top: 5px;
+}
+
 .button-row {
   border: none;
   text-align: center;
