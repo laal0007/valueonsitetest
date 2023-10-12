@@ -6,7 +6,6 @@ let additionalRowCount = 3;
 const rowLimit = 5;
 
 function init() {
-    console.log('init');
     if (!localStorage.getItem('AgreedToTerms') || localStorage.getItem('AgreedToTerms') === 'false') {
         localStorage.setItem('AgreedToTerms', 'false');
         $('#abbreviatedDemo').show();
@@ -36,21 +35,12 @@ function init() {
     $('#row_2_delete').hide();
     $('#row_3_delete').hide();
 
-    // $('#row_0_base').hide();
-    // $('#row_1_base').hide();
-    // $('#row_2_base').hide();
-    // $('#row_3_base').hide();
-
     $('#demo_table').on("mouseenter", '.set-base',
         function () {
-            // console.log('enter');
-            // $(this).children().show();
             $(this).children().removeClass('btn-grey');
             $(this).children().addClass('btn-green');
         }).on("mouseleave", '.set-base',
             function () {
-                // console.log('leave');
-                // $(this).children().hide();
                 if ($(this).children().attr('data-base') === 'false') {
                     $(this).children().removeClass('btn-green');
                     $(this).children().addClass('btn-grey');
@@ -59,14 +49,10 @@ function init() {
 
     $('#demo_table').on("mouseenter", '.delete-box',
         function () {
-            // console.log('enter');
-            // $(this).children().show();
             $(this).children().removeClass('btn-grey');
             $(this).children().addClass('btn-red');
         }).on("mouseleave", '.delete-box',
             function () {
-                // console.log('leave');
-                // $(this).children().hide();
                 $(this).children().removeClass('btn-red');
                 $(this).children().addClass('btn-grey');
             });
@@ -129,7 +115,7 @@ function init() {
 
 
 function ResetTable() {
-    console.log('ResetTable');
+    // console.log('ResetTable');
     $('#demo_table tr td').find("input").each(function () {
         const item = $(this)[0];
         item.value = '';
@@ -186,8 +172,6 @@ function SaveScenario() {
             }
         }
     });
-
-
 
     if (!allInputsComplete) {
         alert('All Inputs must contain a value.')
@@ -272,7 +256,7 @@ function CloseTerms() {
 }
 
 function AddRow() {
-    console.log('AddRow');
+    // console.log('AddRow');
 
     additionalRowCount++;
 
@@ -304,13 +288,7 @@ function AddRow() {
 }
 
 function SetBase(event) {
-    console.log('SetBase');
-
-    // if ($('tr[id^=row_]').length > rowLimit) {
-    //     $('#add_row_button').prop('disabled', false);
-    // }
-
-    // Get the Index for the Remove Button that was clicked
+    // Get the Index for the set Base Button that was clicked
     var index = null;
     if (event.target.id) {
         index = event.target.id.split('_')[1];
@@ -335,17 +313,10 @@ function SetBase(event) {
     $('#row_' + index + '_base').attr('data-base', 'true');
     $('#row_' + index + '_base').removeClass('btn-grey');
     $('#row_' + index + '_base').addClass('btn-green');
-
-
-
-    // // Get the Row that was clicked
-    // var row = $('#row_' + index)[0];
-    // // Remove it from the table
-    // row.remove();
 }
 
 function RemoveRow(event) {
-    console.log('RemoveRow');
+    // console.log('RemoveRow');
 
     if ($('tr[id^=row_]').length > rowLimit) {
         $('#add_row_button').prop('disabled', false);
@@ -366,132 +337,55 @@ function RemoveRow(event) {
     // Remove it from the table
     row.remove();
 
-    if ($(row).hasClass('base_row')){
+    // reset the Base if it was deleted
+    if ($(row).hasClass('base_row')) {
         $('tr[id^=row_]').last().addClass('base_row');
         $('button[id*=_base]').last().removeClass('btn-grey');
         $('button[id*=_base]').last().addClass('btn-green');
         $('button[id*=_base]').last().attr('data-base', 'true');
-
     }
 }
 
 function Calculate() {
-    var rows = $('#demo_table tbody').children();
-    var item = {
-        id: "",
-        name: "",
-        input1: 0,
-        input2: 0,
-        input3: 0,
-        output1: 0,
-        output2: 0
-    };
-    var items = Array(item);
-    rows.each(function (index, value) {
-        var input = $(value).find('input');
-        var id = "id" + index;
-        var name = $(input[0]).val();
-        var input1 = $(input[1]).val();
-        var input2 = $(input[2]).val();
-        var input3 = $(input[3]).val();
-        var output1 = $(input[4]).val();
-        var output2 = $(input[5]).val();
-        item = {
-            id: id,
-            name: name,
-            input1: input1,
-            input2: input2,
-            input3: input3,
-            output1: output1,
-            output2: output2,
+
+    const listOfValues = $('input[id^=row_]:enabled').map(function () {
+        return this.value;
+    }).get();
+
+    var size = 3; var arrayOfArrays = [];
+    for (var i = 0; i < listOfValues.length; i += size) {
+        arrayOfArrays.push(listOfValues.slice(i, i + size));
+    }
+    // console.log(arrayOfArrays);
+
+    const data = [];
+    for (let i = 0; i < arrayOfArrays.length; i++) {
+        const item = arrayOfArrays[i];
+        const record = {
+            name: item[0],
+            quality: item[1],
+            price: item[2]
         };
-        items.push(item);
-    });
+        data.push(record);
+    }
+    // console.log(testData);
+
+
     var serviceUrl = 'https://dqsrnskzi2.execute-api.us-east-1.amazonaws.com/default/cors-test';
-    // https://kdrqcecosg.execute-api.us-east-1.amazonaws.com/default/cors-test
-    // https://43t6mhf3m1.execute-api.us-east-1.amazonaws.com/default/Options-PreFlight
-    // const data = [
-    //     {
-    //       "id": 1,
-    //       "name": "WEBER",
-    //       "input1": 1,
-    //       "input2": 2,
-    //       "input3": 3,
-    //       "input4": 4,
-    //       "input5": 5,
-    //       "input6": 6
-    //     },
-    //     {
-    //       "id": 2,
-    //       "name": "NEXGRILL",
-    //       "input1": 2,
-    //       "input2": 4,
-    //       "input3": 6,
-    //       "input4": 8,
-    //       "input5": 10,
-    //       "input6": 12
-    //     },
-    //     {
-    //       "id": 3,
-    //       "name": "CHAR-BROIL",
-    //       "input1": 1,
-    //       "input2": 3,
-    //       "input3": 5,
-    //       "input4": 7,
-    //       "input5": 9,
-    //       "input6": 11
-    //     },
-    //     {
-    //       "id": 4,
-    //       "name": "TRAEGER",
-    //       "input1": 3,
-    //       "input2": 4,
-    //       "input3": 5,
-    //       "input4": 6,
-    //       "input5": 7,
-    //       "input6": 8
-    //     },
-    //     {
-    //       "id": 5,
-    //       "name": "COLEMAN",
-    //       "input1": 10,
-    //       "input2": 20,
-    //       "input3": 30,
-    //       "input4": 40,
-    //       "input5": 50,
-    //       "input6": 60
-    //     }
-    //   ];
-    var data = {
-        "key1": "value1",
-        "key2": "value2",
-        "key3": "value3"
-    };
     var stringData = JSON.stringify(data);
-    //   fetch('url', {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'text/plain',
-    //       'Content-Type': 'text/plain'
-    //     },
-    //     body: stringData
-    //   });
     $.ajax({
         method: 'POST',
         url: serviceUrl,
-        dataType: 'json',
-        data: data,
+        contentType: 'application/json',
+        data: stringData,
         headers: {
             "x-api-key": 'HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg'
         },
-        // beforeSend: function (xhr) {
-        //     xhr.setRequestHeader ("x-api-key", "HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg");
-        //     },
         success: function (data) {
-            console.info(data);
+            console.info('success - ', data);
         },
         error: function (data) {
-            console.info(data);
+            console.info('error - ', data);
         }
     });
 }
