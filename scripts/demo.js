@@ -4,6 +4,7 @@ jQuery(function ($) {
 
 let additionalRowCount = 3;
 const rowLimit = 5;
+let baseIndex = 3;
 
 function init() {
     if (!localStorage.getItem('AgreedToTerms') || localStorage.getItem('AgreedToTerms') === 'false') {
@@ -22,6 +23,8 @@ function init() {
         RemoveRow(event);
     });
     $('#calculate_button').on('click', Calculate);
+
+    // $('#sort_button').on('click', Sort);
 
     $('#saveTerms').on('click', AgreeToTerms);
     $('#cancelTerms').on('click', CloseTerms);
@@ -84,24 +87,27 @@ function init() {
         const scenarioName = $(this)[0].innerText;
         const index = $('.saved-scenario').index(this);
 
-        const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
-        const scenarioRowCount = listOfScenarios[index][scenarioName].length;
+        if (index !== -1) {
 
-        const currentRowCount = $('tr[id^=row_]').length;
+            const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
+            const scenarioRowCount = listOfScenarios[index][scenarioName].length;
 
-        if (scenarioRowCount < currentRowCount) {
-            const diff = currentRowCount - scenarioRowCount;
-            for (let i = 0; i < diff; i++) {
-                $('tr[id^=row_]').last().remove();
+            const currentRowCount = $('tr[id^=row_]').length;
+
+            if (scenarioRowCount < currentRowCount) {
+                const diff = currentRowCount - scenarioRowCount;
+                for (let i = 0; i < diff; i++) {
+                    $('tr[id^=row_]').last().remove();
+                }
+            } else if (scenarioRowCount > currentRowCount) {
+                const diff = scenarioRowCount - currentRowCount;
+                for (let i = 0; i < diff; i++) {
+                    AddRow();
+                }
             }
-        } else if (scenarioRowCount > currentRowCount) {
-            const diff = scenarioRowCount - currentRowCount;
-            for (let i = 0; i < diff; i++) {
-                AddRow();
-            }
+
+            LoadScenario(scenarioName, index);
         }
-
-        LoadScenario(scenarioName, index);
     });
 
 
@@ -120,6 +126,7 @@ function ResetTable() {
         const item = $(this)[0];
         item.value = '';
     });
+    $('#price-weight').val('');
 
 
     if ($('tr[id^=row_]').length <= 3) {
@@ -137,7 +144,7 @@ function ResetTable() {
 function LoadScenario(scenarioName, index) {
     const listOfScenarios = JSON.parse(localStorage.getItem('Scenarios'));
     const selectedScenarioRows = listOfScenarios[index][scenarioName];
-    const listOfInputs = $('input[id^=row_]:enabled').toArray();
+    const listOfInputs = $('input[id^=row_]').toArray();
 
     let counter = 0;
     for (let i = 0; i < selectedScenarioRows.length; i++) {
@@ -149,6 +156,15 @@ function LoadScenario(scenarioName, index) {
         counter++;
         listOfInputs[counter].value = (row.price);
         counter++;
+        listOfInputs[counter].value = (row.relative);
+        counter++;
+
+        $('#price-weight').val(row.priceWeight);
+
+        if (row.isBase) {
+            SetBase(null, i);
+            baseIndex = i;
+        }
     }
 }
 
@@ -162,16 +178,22 @@ function SaveScenario() {
     if (scenarioTitle == '' || scenarioTitle === null || scenarioTitle.trim() === '') {
         return;
     }
+    const priceWeight = $('#price-weight').val().trim();
 
     let allInputsComplete = true;
     $('#demo_table tr td').find("input").each(function () {
         const item = $(this)[0];
         if (!item.id.includes('output')) {
+            item.value = item.value.trim();
             if (!item.value) {
                 allInputsComplete = false;
             }
         }
     });
+
+    if (!priceWeight) {
+        allInputsComplete = false;
+    }
 
     if (!allInputsComplete) {
         alert('All Inputs must contain a value.')
@@ -184,17 +206,29 @@ function SaveScenario() {
             savedScenarios = [];
         }
 
-        const inputs = $('#demo_table tr td').find("input:enabled");
+        const inputs = $('#demo_table tr td').find("input");
+
+        // let baseIndex = 0;
+        // $('tr[id^=row_]').each(function () {
+        //     if ( $(this).hasClass('base_row')) {
+        //         baseIndex =  $('tr[id^=row_]').index(this);
+        //     }
+        // });
 
         let scenario = {
             [scenarioTitle]: []
         };
-        for (let i = 0; i < inputs.length; i += 3) {
+        let counter = 0;
+        for (let i = 0; i < inputs.length; i += 4) {
             scenario[scenarioTitle].push({
                 item: inputs[i].value,
                 quality: inputs[i + 1].value,
-                price: inputs[i + 2].value
+                price: inputs[i + 2].value,
+                priceWeight: priceWeight,
+                isBase: counter === baseIndex ? true : false,
+                relative: inputs[i + 3].value
             });
+            counter++;
         }
 
         savedScenarios.push(scenario);
@@ -287,15 +321,20 @@ function AddRow() {
     }
 }
 
-function SetBase(event) {
+
+
+function SetBase(event, index) {
     // Get the Index for the set Base Button that was clicked
-    var index = null;
-    if (event.target.id) {
-        index = event.target.id.split('_')[1];
+    if (index === '' || index === null || index === undefined) {
+        if (event.target.id) {
+            index = event.target.id.split('_')[1];
+        }
+        else {
+            index = event.target.parentElement.id.split('_')[1];
+        }
     }
-    else {
-        index = event.target.parentElement.id.split('_')[1];
-    }
+
+    baseIndex = index;
 
     // remove base_row from all rows
     $('tr[id^=row_]').each(function () {
@@ -348,44 +387,127 @@ function RemoveRow(event) {
 
 function Calculate() {
 
-    const listOfValues = $('input[id^=row_]:enabled').map(function () {
+    const priceWeight = $('#price-weight').val().trim();
+    let allInputsComplete = true;
+    $('#demo_table tr td').find("input").each(function () {
+        const item = $(this)[0];
+        if (!item.id.includes('output')) {
+            if (!item.value) {
+                allInputsComplete = false;
+            }
+        }
+    });
+
+    if (!priceWeight) {
+        allInputsComplete = false;
+    }
+
+    if (!allInputsComplete) {
+        alert('All Inputs must contain a value.')
+    } else {
+
+        const listOfValues = $('input[id^=row_]:enabled').map(function () {
+            return this.value;
+        }).get();
+
+        const size = 3;
+        const arrayOfArrays = [];
+        for (var i = 0; i < listOfValues.length; i += size) {
+            arrayOfArrays.push(listOfValues.slice(i, i + size));
+        }
+        // console.log(arrayOfArrays);
+
+        // let baseIndex = 0;
+        // $('tr[id^=row_]').each(function () {
+        //     if ( $(this).hasClass('base_row')) {
+        //         baseIndex =  $('tr[id^=row_]').index(this);
+        //     }
+        // });
+
+
+        const data = [];
+        for (let i = 0; i < arrayOfArrays.length; i++) {
+            const item = arrayOfArrays[i];
+            const record = {
+                name: item[0],
+                quality: parseFloat(item[1]),
+                price: parseFloat(item[2]),
+                priceWeight: parseFloat(priceWeight),
+                isBase: i === baseIndex ? true : false,
+                relative: 0
+            };
+            data.push(record);
+        }
+        // console.log(testData);
+
+
+        const serviceUrl = 'https://dqsrnskzi2.execute-api.us-east-1.amazonaws.com/default/cors-test';
+        const stringData = JSON.stringify(data);
+
+        JSON.parse(stringData);
+
+        $.ajax({
+            method: 'POST',
+            url: serviceUrl,
+            contentType: 'application/json',
+            data: stringData,
+            headers: {
+                "x-api-key": 'HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg'
+            },
+            success: function (data) {
+                console.info('success - ', data);
+
+                const results = JSON.parse(data);
+
+                for (let i = 0; i < results.length; i++) {
+                    const item = results[i];
+                    $('#row_' + i + '_output').val(item);
+                }
+
+                Sort();
+            },
+            error: function (data) {
+                // console.info('error - ', data);
+                alert('There was an error with your request, please try again.');
+            }
+        });
+    }
+}
+
+function Sort() {
+
+    const listOfValues = $('input[id^=row_]').map(function () {
         return this.value;
     }).get();
 
-    var size = 3; var arrayOfArrays = [];
+    const size = 4;
+    const arrayOfArrays = [];
     for (var i = 0; i < listOfValues.length; i += size) {
         arrayOfArrays.push(listOfValues.slice(i, i + size));
     }
-    // console.log(arrayOfArrays);
 
-    const data = [];
+    arrayOfArrays[baseIndex].isBase = true;
+
+    console.log(arrayOfArrays.sort((a,b) => b[3] - a[3]));
+
+    const listOfInputs = $('input[id^=row_]').toArray();
+
+    let counter = 0;
     for (let i = 0; i < arrayOfArrays.length; i++) {
-        const item = arrayOfArrays[i];
-        const record = {
-            name: item[0],
-            quality: item[1],
-            price: item[2]
-        };
-        data.push(record);
-    }
-    // console.log(testData);
+        const row = arrayOfArrays[i];
 
+        listOfInputs[counter].value = (row[0]);
+        counter++;
+        listOfInputs[counter].value = (row[1]);
+        counter++;
+        listOfInputs[counter].value = (row[2]);
+        counter++;
+        listOfInputs[counter].value = (row[3]);
+        counter++;
 
-    var serviceUrl = 'https://dqsrnskzi2.execute-api.us-east-1.amazonaws.com/default/cors-test';
-    var stringData = JSON.stringify(data);
-    $.ajax({
-        method: 'POST',
-        url: serviceUrl,
-        contentType: 'application/json',
-        data: stringData,
-        headers: {
-            "x-api-key": 'HRDtCwhGkUQgMriAEnO620zGUGoZFjc2T6UQ8Pvg'
-        },
-        success: function (data) {
-            console.info('success - ', data);
-        },
-        error: function (data) {
-            console.info('error - ', data);
+        if (row.isBase) {
+            SetBase(null, i);
         }
-    });
+    }
+
 }

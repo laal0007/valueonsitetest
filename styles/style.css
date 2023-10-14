@@ -15,7 +15,7 @@ section p,
 section h2,
 section h3,
 section h6 {
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
   padding-right: 1rem;
 }
 
