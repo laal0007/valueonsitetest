@@ -138,6 +138,24 @@ function ResetTable() {
     }
 
     $('#add_row_button').prop('disabled', false);
+
+
+    // remove base_row from all rows
+    $('tr[id^=row_]').each(function () {
+        $(this).removeClass('base_row');
+    });
+
+    // reset all data-base attributes
+    $('button[id*=_base]').each(function () {
+        $(this).attr('data-base', 'false');
+        $(this).removeClass('btn-green');
+        $(this).addClass('btn-grey');
+    });
+
+    $('#row_' + 3).addClass('base_row');
+    $('#row_' + 3 + '_base').attr('data-base', 'true');
+    $('#row_' + 3 + '_base').removeClass('btn-grey');
+    $('#row_' + 3 + '_base').addClass('btn-green');
 }
 
 
@@ -163,7 +181,7 @@ function LoadScenario(scenarioName, index) {
 
         if (row.isBase) {
             SetBase(null, i);
-            baseIndex = i;
+            baseIndex = parseInt(i);
         }
     }
 }
@@ -207,13 +225,6 @@ function SaveScenario() {
         }
 
         const inputs = $('#demo_table tr td').find("input");
-
-        // let baseIndex = 0;
-        // $('tr[id^=row_]').each(function () {
-        //     if ( $(this).hasClass('base_row')) {
-        //         baseIndex =  $('tr[id^=row_]').index(this);
-        //     }
-        // });
 
         let scenario = {
             [scenarioTitle]: []
@@ -334,7 +345,7 @@ function SetBase(event, index) {
         }
     }
 
-    baseIndex = index;
+    baseIndex = parseInt(index);
 
     // remove base_row from all rows
     $('tr[id^=row_]').each(function () {
@@ -406,6 +417,19 @@ function Calculate() {
         alert('All Inputs must contain a value.')
     } else {
 
+        let counter = 10;
+        $('#calculate_button').prop('disabled', true);
+        const timer = setInterval(() => {
+            $('#calculate_button')[0].innerText = counter;
+            counter--;
+            if (counter < 0) {
+                clearInterval(timer);
+                $('#calculate_button')[0].innerText = 'Calculate';
+                $('#calculate_button').prop('disabled', false);
+            }
+        }, 1000);
+
+
         const listOfValues = $('input[id^=row_]:enabled').map(function () {
             return this.value;
         }).get();
@@ -415,15 +439,6 @@ function Calculate() {
         for (var i = 0; i < listOfValues.length; i += size) {
             arrayOfArrays.push(listOfValues.slice(i, i + size));
         }
-        // console.log(arrayOfArrays);
-
-        // let baseIndex = 0;
-        // $('tr[id^=row_]').each(function () {
-        //     if ( $(this).hasClass('base_row')) {
-        //         baseIndex =  $('tr[id^=row_]').index(this);
-        //     }
-        // });
-
 
         const data = [];
         for (let i = 0; i < arrayOfArrays.length; i++) {
@@ -438,7 +453,6 @@ function Calculate() {
             };
             data.push(record);
         }
-        // console.log(testData);
 
 
         const serviceUrl = 'https://dqsrnskzi2.execute-api.us-east-1.amazonaws.com/default/cors-test';
@@ -509,5 +523,7 @@ function Sort() {
             SetBase(null, i);
         }
     }
+
+    $('.output-value').delay(100).fadeOut().fadeIn('slow');
 
 }
